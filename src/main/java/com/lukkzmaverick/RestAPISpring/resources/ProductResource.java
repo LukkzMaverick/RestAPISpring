@@ -1,6 +1,7 @@
 package com.lukkzmaverick.RestAPISpring.resources;
 
 import java.util.List;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lukkzmaverick.RestAPISpring.models.Product;
 import com.lukkzmaverick.RestAPISpring.services.ProductService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "API REST - Model Product")
 @RestController
 @RequestMapping("/products")
 public class ProductResource {
@@ -36,7 +41,8 @@ public class ProductResource {
 		this.productService = productService;
 	}
 	
-	@GetMapping
+	@ApiOperation(value = "Find All Products in Database")
+	@GetMapping(produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<?> findAll(){
 		List<Product> list = this.productService.findAll();
@@ -44,6 +50,7 @@ public class ProductResource {
 				
 	}
 	
+	@ApiOperation(value = "Find By Id in Database")
 	@GetMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
@@ -51,6 +58,7 @@ public class ProductResource {
 		return ResponseEntity.of(product);
 	}
 	
+	@ApiOperation(value = "Create a new Product")
 	@PostMapping
 	@ResponseBody
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -65,6 +73,7 @@ public class ProductResource {
 		return ResponseEntity.badRequest().body(body);
 	}
 	
+	@ApiOperation(value = "Update a Product by id")
 	@PutMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<?> update(@Valid @PathVariable("id") Long id, @RequestBody Product product, Errors errors) {
@@ -78,6 +87,7 @@ public class ProductResource {
 		return ResponseEntity.badRequest().body(body);
 	}
 	
+	@ApiOperation(value = "Delete product by Id")
 	@DeleteMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public ResponseEntity<?> delete(@PathVariable("id") Long id, HttpServletResponse response) {

@@ -21,7 +21,7 @@ public class SwaggerConfig {
 	public Docket apiConfigDocs() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.lukkzmaverick.RestAPISpring.resources"))
-				.paths(PathSelectors.ant("/*")).build();
+				.paths(PathSelectors.any()).build();
 	}
 	
 	private ApiInfo infodocs() {
